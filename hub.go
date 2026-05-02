@@ -1,4 +1,7 @@
 package main
+import(
+	"fmt"
+)
 
 type Hub struct {
 	clients map[*Client]bool
@@ -40,6 +43,7 @@ func (h *Hub) Run(){
 		case c := <-h.unregister:
 			delete(h.clients, c)
 		case msg := <-h.broadcast:
+			fmt.Printf("Hub %p odbiera wiadomość. Rozsyłam do %d klientów\n", h, len(h.clients))
 			for c := range h.clients{
 				c.send <- msg
 			}

@@ -11,7 +11,6 @@ var upgrader = websocket.Upgrader{
 	WriteBufferSize: 1024,
 	CheckOrigin: func(r *http.Request) bool { return true },
 }
-
 func main() {
 	fmt.Println("Hello world")
 	manager := &HubManager{
@@ -29,6 +28,7 @@ func main() {
 
 
 func serveWs(manager *HubManager, w http.ResponseWriter, r *http.Request){
+	fmt.Println("serveWs")
 	conn, err := upgrader.Upgrade(w,r,nil)
 	if err != nil{
 		fmt.Println("Error with upgrade")
@@ -41,6 +41,7 @@ func serveWs(manager *HubManager, w http.ResponseWriter, r *http.Request){
 		send: make(chan []byte, 256),
 	}
 	hub.register <- client
+	fmt.Println("hub", hub.broadcast ,hub.clients)
 	// go client.writePump()
 	// go client.readPump()
 }
