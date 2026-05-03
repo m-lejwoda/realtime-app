@@ -1,7 +1,8 @@
 package main
 
 import (
-    "github.com/gorilla/websocket"
+	"fmt"
+	"github.com/gorilla/websocket"
 )
 
 type Client struct{
@@ -12,4 +13,9 @@ type Client struct{
 
 func (c *Client) sendMessage(h *Hub){
 
+
+}
+
+func (c *Client) readMessage(h *Hub){
+	fmt.Println("readMessage")
 }

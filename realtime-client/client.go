@@ -30,9 +30,16 @@ func main() {
 			break
 		}
 		text := userInput.Text()
+		fmt.Println("text", text)
 		err := conn.WriteMessage(websocket.TextMessage, []byte(text))
+		fmt.Println("Wyslane")
 		if err != nil{
 			fmt.Println("Sending Error", err)
 		}
+		xd,test,xd2 := conn.ReadMessage()
+		fmt.Println("xd",xd)
+		fmt.Println("test",test)
+		fmt.Println(xd2)
+
 	}
 }

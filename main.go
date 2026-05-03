@@ -19,6 +19,7 @@ func main() {
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		serveWs(manager, w,r)
 	})
+	
 	fmt.Println("Server has just started - port:8080")
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil{
@@ -42,6 +43,14 @@ func serveWs(manager *HubManager, w http.ResponseWriter, r *http.Request){
 	}
 	hub.register <- client
 	fmt.Println("hub", hub.broadcast ,hub.clients)
+	go client.readMessage(client.hub)
 	// go client.writePump()
 	// go client.readPump()
+}
+
+func readMessages(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Read message")	
+	conn, _ := upgrader.Upgrade(w,r,nil)
+	fmt.Println("Testowa wiadomosc")
+	fmt.Println(conn.ReadMessage())
 }

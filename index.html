@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <title>RealTime Chat App</title>
+  </head>
+  <body>
+    <p>Hello world</p>
+    <button id="connect">Connect to room</button>
+    <input type="text" name="message" id="message"></input>
+    <button id="sendMessage">Send Message</button>
+  </body>
+  <script>
+    console.log("working")
+    let websocket = null
+    const connectButton = document.getElementById("connect")
+    const sendMessageButton = document.getElementById("sendMessage")
+    function connectToTheRoom(e){
+        console.log("connectToTheRoom", e)
+        if (websocket == null) {
+            console.log("Dodaje polączenie")
+            websocket = new WebSocket("ws://localhost:8080/ws")
+        }else{
+            console.log("Nie dodaje polaczenia")
+        }
+    }
+    function sendMessage(e){
+        message = document.getElementById("message").value
+        console.log("message", message)
+        websocket.send(message)
+    }
+    connectButton.addEventListener("click", connectToTheRoom)
+    sendMessageButton.addEventListener("click", sendMessage)
+   
+</script>
+</html>
