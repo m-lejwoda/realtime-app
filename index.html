@@ -8,6 +8,7 @@
     <button id="connect">Connect to room</button>
     <input type="text" name="message" id="message"></input>
     <button id="sendMessage">Send Message</button>
+    <textarea id="chat"></textarea>
   </body>
   <script>
     console.log("working")
@@ -19,6 +20,7 @@
         if (websocket == null) {
             console.log("Add connection")
             websocket = new WebSocket("ws://localhost:8080/ws")
+            websocket.addEventListener("message", getMessage)
         }else{
             console.log("Connection already")
         }
@@ -28,8 +30,13 @@
         console.log("message", message)
         websocket.send(message)
     }
+    function getMessage(msg){
+        console.log("getMEssage", msg)
+        document.getElementById("chat").value += msg.data + "\n"
+    }
     connectButton.addEventListener("click", connectToTheRoom)
     sendMessageButton.addEventListener("click", sendMessage)
+    
    
 </script>
 </html>

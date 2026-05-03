@@ -44,5 +44,6 @@ func serveWs(manager *HubManager, w http.ResponseWriter, r *http.Request){
 	hub.register <- client
 	fmt.Println("hub", hub.clients)
 	go client.addToBroadcast(hub)
+	go client.sendToClient()
 }
 

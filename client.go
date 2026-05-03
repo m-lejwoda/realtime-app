@@ -26,3 +26,12 @@ func (c *Client) addToBroadcast(h *Hub){
 		h.broadcast <- msg
 	}
 }
+
+func (c *Client) sendToClient(){
+	for{
+		for msg := range c.send{
+			fmt.Println("Sending")
+			c.conn.WriteMessage(websocket.TextMessage, msg)
+		}
+	}
+}
