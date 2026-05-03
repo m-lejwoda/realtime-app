@@ -8,7 +8,7 @@
     <button id="connect">Connect to room</button>
     <input type="text" name="message" id="message"></input>
     <button id="sendMessage">Send Message</button>
-    <textarea id="chat"></textarea>
+    <div id="chat">sdfdfssdfsdf</div>
   </body>
   <script>
     console.log("working")
@@ -32,7 +32,17 @@
     }
     function getMessage(msg){
         console.log("getMEssage", msg)
-        document.getElementById("chat").value += msg.data + "\n"
+        console.log(JSON.parse(msg.data))
+        const newMsg = JSON.parse(msg.data)
+        const newChild = document.createElement('div')
+        const date = new Date(newMsg.Date)
+        console.log("date", date)
+        const resDate = date.toLocaleTimeString();
+        console.log("resDate", resDate)
+        newChild.id = 'new_content'
+        newChild.className = 'message'
+        newChild.innerHTML = `<div>${resDate}</div><div>${newMsg.User}</div><div className="content"><p>${newMsg.Content}</p></div><div>Options</div>`
+        document.getElementById("chat").appendChild(newChild)
     }
     connectButton.addEventListener("click", connectToTheRoom)
     sendMessageButton.addEventListener("click", sendMessage)

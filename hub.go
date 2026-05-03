@@ -1,7 +1,23 @@
 package main
-import(
+
+import (
+	"encoding/json"
 	"fmt"
+	"time"
 )
+
+type Message struct {
+	Date time.Time
+	User string
+	Content string
+}
+func newMessage(content string) *Message{
+	message := Message{}
+	message.Date = time.Now()
+	message.User = "Anonymous"
+	message.Content = content
+	return &message
+}
 
 type Hub struct {
 	clients map[*Client]bool
@@ -19,12 +35,6 @@ func (h *Hub) unregisterClient(c *Client){
 	h.unregister <- c
 }
 
-// func (h *Hub) broadcastMessage(message []byte){
-// 	for client := range h.clients{
-// 		client.send <- message
-// 	}
-// }
-
 func (h *Hub) Run(){
 	for{
 		select{
@@ -37,8 +47,13 @@ func (h *Hub) Run(){
 		case msg := <-h.broadcast:
 			fmt.Printf("Hub %p odbiera wiadomość. Rozsyłam do %d klientów\n", h, len(h.clients))
 			fmt.Println(string(msg))
+			new_msg := newMessage(string(msg))
+			converted_msg, err := json.Marshal(new_msg)
+			if err != nil{
+				fmt.Println(err)
+			}
 			for c := range h.clients{
-				c.send <- msg
+				c.send <- converted_msg
 			}
 		}
 	}
