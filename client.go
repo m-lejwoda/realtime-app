@@ -16,6 +16,13 @@ func (c *Client) sendMessage(h *Hub){
 
 }
 
-func (c *Client) readMessage(h *Hub){
-	fmt.Println("readMessage")
+func (c *Client) addToBroadcast(h *Hub){
+	for{
+		_, msg, err := c.conn.ReadMessage()
+		if err != nil{
+			fmt.Println("err", err)
+		}
+		fmt.Println(msg)
+		h.broadcast <- msg
+	}
 }

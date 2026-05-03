@@ -10,14 +10,6 @@ type Hub struct {
 	unregister chan *Client
 }
 
-// func (h *Hub) addClient(c *Client){
-// 	h.clients[c] = true
-// }
-
-// func (h *Hub) removeClient(c *Client){
-// 	h.clients[c] = false
-// }
-
 func (h *Hub) registerClient(c *Client){
 	h.register <- c
 }
@@ -27,11 +19,11 @@ func (h *Hub) unregisterClient(c *Client){
 	h.unregister <- c
 }
 
-func (h *Hub) broadcastMessage(message []byte){
-	for client := range h.clients{
-		client.send <- message
-	}
-}
+// func (h *Hub) broadcastMessage(message []byte){
+// 	for client := range h.clients{
+// 		client.send <- message
+// 	}
+// }
 
 func (h *Hub) Run(){
 	for{
@@ -44,6 +36,7 @@ func (h *Hub) Run(){
 			delete(h.clients, c)
 		case msg := <-h.broadcast:
 			fmt.Printf("Hub %p odbiera wiadomość. Rozsyłam do %d klientów\n", h, len(h.clients))
+			fmt.Println(string(msg))
 			for c := range h.clients{
 				c.send <- msg
 			}

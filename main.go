@@ -42,15 +42,7 @@ func serveWs(manager *HubManager, w http.ResponseWriter, r *http.Request){
 		send: make(chan []byte, 256),
 	}
 	hub.register <- client
-	fmt.Println("hub", hub.broadcast ,hub.clients)
-	go client.readMessage(client.hub)
-	// go client.writePump()
-	// go client.readPump()
+	fmt.Println("hub", hub.clients)
+	go client.addToBroadcast(hub)
 }
 
-func readMessages(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Read message")	
-	conn, _ := upgrader.Upgrade(w,r,nil)
-	fmt.Println("Testowa wiadomosc")
-	fmt.Println(conn.ReadMessage())
-}

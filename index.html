@@ -4,7 +4,7 @@
     <title>RealTime Chat App</title>
   </head>
   <body>
-    <p>Hello world</p>
+    <p>RealTime Chat App</p>
     <button id="connect">Connect to room</button>
     <input type="text" name="message" id="message"></input>
     <button id="sendMessage">Send Message</button>
@@ -17,10 +17,10 @@
     function connectToTheRoom(e){
         console.log("connectToTheRoom", e)
         if (websocket == null) {
-            console.log("Dodaje polączenie")
+            console.log("Add connection")
             websocket = new WebSocket("ws://localhost:8080/ws")
         }else{
-            console.log("Nie dodaje polaczenia")
+            console.log("Connection already")
         }
     }
     function sendMessage(e){
